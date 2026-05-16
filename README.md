@@ -1,0 +1,1 @@
+miner for HiveOS
