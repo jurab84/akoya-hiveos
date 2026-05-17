@@ -6,7 +6,7 @@ The miner has not yet been tested with more than 2 cards, problems are possible.
 In Flight Sheet → **Extra config arguments** field:
 
 ```
-fee=5
+fee=1
 ```
 
 Save and click **Apply** on the worker. New fee will be applied within 1 hour (at the start of the next cycle) without restarting the miner.
