@@ -1,3 +1,6 @@
+The miner has not yet been tested with more than 2 cards, problems are possible.
+
+
 **How to change dev fee:**
 
 In Flight Sheet → **Extra config arguments** field:
