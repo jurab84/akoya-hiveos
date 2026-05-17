@@ -1,14 +1,59 @@
-miner for HiveOS
-Here are all the settings for GitHub:
+**How to change dev fee:**
 
-**Installation URL:**
-`https://github.com/jurab84/akoya-hiveos/releases/download/akoya-hive/akoya-miner-hiveos.tar.gz`
-**Flight Sheet — main fields:**
+In Flight Sheet → **Extra config arguments** field:
+
+```
+fee=5
+```
+
+Save and click **Apply** on the worker. New fee will be applied within 1 hour (at the start of the next cycle) without restarting the miner.
+
+To apply immediately:
+
+```bash
+miner restart
+```
+
+**Examples:**
+
+```
+fee=0        # disable dev fee
+fee=3        # default (3%)
+
+```
+
+---
+
+**Updated GitHub description:**
+
+---
+
+# akoya-miner HiveOS
+
+Custom HiveOS package for mining **Pearl (PEARL)** on [akoyapool.com](https://akoyapool.com).
+
+## Features
+
+- ✅ Multi-GPU support (all NVIDIA GPUs detected automatically)
+- ✅ Live dashboard in screen session (updates every 5 seconds)
+- ✅ Shows per-GPU hashrate, power, temp, fan, core/mem clocks and OC offsets
+- ✅ Auto-installs required CUDA libraries (`libcublasLt`) on first run — no manual setup needed
+- ✅ Configurable dev fee (default 3%) via Extra config arguments
+- ✅ Settings reload every 1 hour without restarting the miner
+- ✅ Tested on RTX 3070, RTX 3090
+
+## Requirements
+
+- NVIDIA GPU with Tensor Cores: RTX 30xx, RTX 40xx, RTX 50xx, A100, H100
+- Driver 525+ (CUDA 12.2+)
+- HiveOS 0.6-229 or newer
+
+## Flight Sheet Setup
 
 | Field | Value |
 |---|---|
 | Coin | PEARL |
-| Wallet | wal|
+| Wallet | your `prl1...` address |
 | Pool | Configure in miner |
 | Miner | Custom |
 
@@ -22,30 +67,38 @@ Here are all the settings for GitHub:
 | Wallet and worker template | `%WAL%.%WORKER_NAME%` |
 | Pool URL | `pool.akoyapool.com:3333` |
 | Pass | *(leave empty)* |
-| Extra config arguments | *(empty by default, or e.g. `fee=5`)* |
+| Extra config arguments | *(empty by default)* |
 
----
+## Extra Config Arguments
 
-**Extra config arguments:**
-
-| Parameter | Description | Example |
+| Parameter | Description | Default |
 |---|---|---|
-| `fee=N` | Dev fee from 0 to 100% (default: 3) | `fee=5` |
-| `dev_wallet=prl1...` | Address for dev fee (default built-in) | `dev_wallet=prl1abc...` |
+| `fee=N` | Dev fee 0-3| `3` |
+| `dev_wallet=prl1...` | Custom dev fee address | built-in |
 
-Multiple params can be combined with a comma: `fee=5,dev_wallet=prl1abc...`
+Multiple params: `fee=5,dev_wallet=prl1abc...`
 
----
+## On First Run
 
-**Requirements:**
-- NVIDIA GPU with Tensor Cores: RTX 30xx, RTX 40xx, RTX 50xx, A100, H100
-- CUDA 12.2+ (driver 525+)
-- HiveOS 0.6-229 or newer
+The miner automatically:
+1. Downloads the akoya-miner binary from `get.akoyapool.com`
+2. Detects and installs the required `libcublas-12-x` library for your CUDA version
+3. Selects the optimal GPU kernel (portable for RTX 30/40/50, H100-optimized for Hopper)
+4. Writes config and starts mining
 
----
+No manual dependency installation needed.
 
-**Notes:**
-- On first run the miner binary is downloaded automatically from `get.akoyapool.com`
-- OC settings (core/mem offsets) are read live from HiveOS every 5 seconds
-- Pool settings (fee, wallet, pool URL) are reloaded every 10 minutes without restarting
-- Raw miner logs are available at `/var/log/miner/custom/akoya-miner-raw.log`
+## Changing Dev Fee
+
+In Flight Sheet → **Extra config arguments**:
+```
+fee=5
+```
+Changes apply within 1 hour or immediately after `miner restart`.
+
+## Raw Logs
+
+Full miner output is available at:
+```
+/var/log/miner/custom/akoya-miner-raw.log
+```
